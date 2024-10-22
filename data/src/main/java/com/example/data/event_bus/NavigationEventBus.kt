@@ -1,0 +1,76 @@
+package com.example.data.event_bus
+
+import com.example.domain.models.navigation.Graph
+import com.example.domain.models.navigation.NavEvent
+import com.example.domain.models.navigation.Screen
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
+import org.koin.java.KoinJavaComponent
+
+internal class NavigationEventBus {
+
+    private val _navEvent = MutableSharedFlow<NavEvent?>()
+    val navEvent = _navEvent.asSharedFlow()
+
+    suspend fun emitEvent(event: NavEvent) {
+        _navEvent.emit(event)
+    }
+
+}
+
+fun navigateTo(
+    destination: Screen,
+    alsoClearBackStack: Boolean = false,
+    alsoPopUpTo: Screen? = null,
+    inclusivePopUp: Boolean = true,
+    withParameters: List<String> = emptyList(),
+) {
+    CoroutineScope(Dispatchers.IO).launch {
+        KoinJavaComponent.get<NavigationEventBus>(NavigationEventBus::class.java)
+            .emitEvent(NavEvent.Navigate(
+                screen = destination,
+                alsoClearBackstack = alsoClearBackStack,
+                alsoPopUpTo = alsoPopUpTo,
+                inclusivePopUp = inclusivePopUp,
+                withParameters = withParameters
+            ))
+    }
+}
+
+fun navigateTo(
+    destination: Graph,
+    alsoClearBackStack: Boolean = false,
+    alsoPopUpTo: Screen? = null,
+    inclusivePopUp: Boolean = true,
+    withParameters: List<String> = emptyList(),
+) {
+    CoroutineScope(Dispatchers.IO).launch {
+        KoinJavaComponent.get<NavigationEventBus>(NavigationEventBus::class.java)
+            .emitEvent(NavEvent.Navigate(
+                graph = destination,
+                alsoClearBackstack = alsoClearBackStack,
+                alsoPopUpTo = alsoPopUpTo,
+                inclusivePopUp = inclusivePopUp,
+                withParameters = withParameters
+            ))
+    }
+}
+
+fun navigateUp() {
+    CoroutineScope(Dispatchers.IO).launch {
+        KoinJavaComponent.get<NavigationEventBus>(NavigationEventBus::class.java).emitEvent(NavEvent.NavigateUp)
+    }
+}
+
+fun navigateUpTo(screen: Screen) {
+    CoroutineScope(Dispatchers.IO).launch {
+        KoinJavaComponent.get<NavigationEventBus>(NavigationEventBus::class.java).emitEvent(NavEvent.NavigateUpTo(screen))
+    }
+}
+
+fun getNavControllerEventBusFlow(): SharedFlow<NavEvent?> =
+    KoinJavaComponent.get<NavigationEventBus>(NavigationEventBus::class.java).navEvent
