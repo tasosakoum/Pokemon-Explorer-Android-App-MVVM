@@ -1,17 +1,16 @@
 package com.example.pokemonexplorer.navigation.graphs
 
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.example.domain.models.navigation.MainGraph
 import com.example.pokemonexplorer.utils.methods.screen
 
 fun NavGraphBuilder.mainNavGraph() {
-    navigation(
-        route = MainGraph.route,
-        startDestination = MainGraph.startDestination.route
-    ) {
-        screen(MainGraph.MainScreen) {
-
+    navigation<MainGraph>(startDestination = MainGraph.startDestination) {
+        composable<MainGraph.MainScreen> {
+            val args = it.toRoute<MainGraph.MainScreen>()
         }
     }
 }
