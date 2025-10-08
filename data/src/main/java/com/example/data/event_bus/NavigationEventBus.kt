@@ -29,7 +29,6 @@ fun navigateTo(
     alsoClearBackStack: Boolean = false,
     alsoPopUpTo: Screen? = null,
     inclusivePopUp: Boolean = true,
-    withParameters: List<String> = emptyList(),
 ) {
     KoinJavaComponent.get<NavigationEventBus>(NavigationEventBus::class.java)
         .emitEvent(
@@ -38,7 +37,6 @@ fun navigateTo(
                 alsoClearBackstack = alsoClearBackStack,
                 alsoPopUpTo = alsoPopUpTo,
                 inclusivePopUp = inclusivePopUp,
-                withParameters = withParameters
             )
         )
 }
@@ -48,7 +46,6 @@ fun navigateTo(
     alsoClearBackStack: Boolean = false,
     alsoPopUpTo: Screen? = null,
     inclusivePopUp: Boolean = true,
-    withParameters: List<String> = emptyList(),
 ) {
     KoinJavaComponent.get<NavigationEventBus>(NavigationEventBus::class.java)
         .emitEvent(
@@ -57,7 +54,6 @@ fun navigateTo(
                 alsoClearBackstack = alsoClearBackStack,
                 alsoPopUpTo = alsoPopUpTo,
                 inclusivePopUp = inclusivePopUp,
-                withParameters = withParameters
             )
         )
 }

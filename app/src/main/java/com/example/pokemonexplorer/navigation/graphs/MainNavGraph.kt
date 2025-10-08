@@ -5,7 +5,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.domain.models.navigation.MainGraph
-import com.example.pokemonexplorer.utils.methods.screen
 
 fun NavGraphBuilder.mainNavGraph() {
     navigation<MainGraph>(startDestination = MainGraph.startDestination) {

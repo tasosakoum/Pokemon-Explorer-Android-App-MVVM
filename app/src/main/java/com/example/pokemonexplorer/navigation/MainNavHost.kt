@@ -25,15 +25,14 @@ internal fun MainNavHost(
         getNavControllerEventBusFlow().collect {
             when (val event = navEvent) {
                 is NavEvent.Navigate -> navHostController.pokeNavigateSingleTop(
-                    route = event.route,
+                    screen = event.screen,
                     alsoClearBackStack = event.alsoClearBackstack,
                     alsoPopUpTo = event.alsoPopUpTo,
                     inclusivePopUp = event.inclusivePopUp,
-                    withParameters = event.withParameters
                 )
                 is NavEvent.NavigateUp -> navHostController.pokePopBackStack()
                 is NavEvent.NavigateUpTo -> navHostController.popBackStack(
-                    event.screen.route,
+                    event.screen,
                     false
                 )
                 else -> {}
@@ -43,7 +42,7 @@ internal fun MainNavHost(
 
     NavHost(
         navController = navHostController,
-        startDestination = MainGraph.route
+        startDestination = MainGraph
     ) {
         mainNavGraph()
     }
